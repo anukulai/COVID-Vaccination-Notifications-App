@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <h1>Vaccine Availability Notifications</h1>
+    </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script>
+        function myFunction() {
+            
+            var done=false;
+            fetch('https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByDistrict?district_id=269&date=31-07-2021')
+            .then(res => res.json())
+            .then(data => {
+                for(let i =0; i< data.centers.length; i++){
+                    if(data.centers[i].sessions[0].vaccine=="COVISHIELD" && data.centers[i].sessions[0].min_age_limit==18 && data.centers[i].sessions[0].available_capacity>0){
+                        console.log(i)
+                        done=true;
+                        alert("COVAXIN is available for min age limit : "+data.centers[i].sessions[0].min_age_limit)
+                        if (window.confirm("COVAXIN is available for min age limit : "+data.centers[i].sessions[0].min_age_limit+"!!!")) 
+                        {
+                        window.location.href='https://www.cowin.gov.in/home';
+                        break;
+                        };
+                        
+                    }
+                    }
+                    if(done==false)
+                    {
+                    for(let i =0; i< data.centers.length; i++){
+                     if(data.centers[i].sessions[0].vaccine=="COVAXIN"){
+                        alert("COVAXIN is available for min age limit : "+data.centers[i].sessions[0].min_age_limit)
+                        // if (window.confirm("COVAXIN is available for min age limit : "+data.centers[i].sessions[0].min_age_limit+"!!!")) 
+                        // {
+                        // window.location.href='';
+                        break;
+                      
+                    }}
+                }
+                
+            });
+            
+            
+        }
+        
+        setInterval(myFunction, 10000); 
+    </script>
+     <!-- <button class="button">REFRESH!</button> -->
+    <body onload="myFunction()">
+        
+    </body>
+    
+</html>
+
